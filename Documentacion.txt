@@ -1,0 +1,91 @@
+======================================================================
+         DOCUMENTO DE DISEÑO ORIENTADO A OBJETOS - PROYECTO
+======================================================================
+
+Este proyecto fue desarrollado bajo el enfoque de separación de 
+responsabilidades, dividiendo el código en tres capas principales: 
+la lógica del árbol (modelo), el almacenamiento de datos (persistencia) 
+y las ventanas que ve el usuario (interfaz gráfica).
+
+
+1. CLASES CREADAS, RESPONSABILIDADES Y METODOS
+----------------------------------------------------------------------
+* Clase Nodo (Estructura base)
+  - Responsabilidad: Es el bloque fundamental del árbol. Representa 
+    tanto las preguntas del juego como las respuestas finales (hojas).
+  - Atributos clave: valor (el texto), es_pregunta (un sí/no para 
+    saber si es hoja), si (rama izquierda) y no (rama derecha).
+
+* Clase ArbolDecision (Lógica del juego)
+  - Responsabilidad: Controla el flujo de la partida actual, mueve 
+    al jugador por las ramas y expande el árbol cuando aprende.
+  - Métodos principales: crear_arbol_defecto, reiniciar_partida, 
+    responder y aprender.
+
+* Clase GestorArchivos (Manejo de disco)
+  - Responsabilidad: Lee y escribe archivos .txt. Traduce lo que está 
+    en memoria a texto plano y genera los 5 ejemplos temáticos iniciales.
+  - Métodos principales: guardar_arbol, cargar_arbol y generar_ejemplos.
+
+* Clase InterfazJuego (Ventanas en Tkinter)
+  - Responsabilidad: Dibuja las pantallas, muestra la imagen del 
+    personaje y captura lo que el usuario digita o cliquea.
+  - Métodos principales: mostrar_pantalla_inicial, iniciar_partida, 
+    mostrar_pregunta_o_hoja, sistema_gana y sistema_falla.
+
+
+2. RELACION ENTRE CLASES
+----------------------------------------------------------------------
+* Composición (Árbol -> Nodo): El ArbolDecision "es dueño" de sus 
+  Nodos. Si el árbol deja de existir en memoria, los nodos se borran 
+  con él.
+* Agregación (Interfaz -> Lógica/Gestor): La InterfazJuego contiene 
+  al ArbolDecision y al GestorArchivos dentro de sí para usarlos 
+  cuando el usuario interactúa, pero cada clase funciona por separado.
+
+
+3. REPRESENTACION DEL ARBOL
+----------------------------------------------------------------------
+El juego usa un Árbol Binario de Decisión. Los nodos intermedios son 
+preguntas (tienen el atributo es_pregunta en True) y obligatoriamente 
+tienen dos hijos (rama Si y rama No). Los nodos finales son las 
+respuestas (es_pregunta en False) y sus hijos apuntan a None (vacío), 
+indicando el fin del camino.
+
+
+4. FORMA EN QUE SE RECORRE EL ARBOL
+----------------------------------------------------------------------
+El recorrido ocurre en tiempo real según lo que el usuario responda. 
+El sistema guarda la posición actual en la variable 'nodo_actual'. 
+Si el usuario pulsa "Sí", el puntero se mueve a 'nodo_actual.si'; 
+si pulsa "No", se mueve a 'nodo_actual.no'. El ciclo se detiene en 
+cuanto llegamos a una respuesta final (hoja).
+
+
+5. FORMA EN QUE SE AGREGA UNA NUEVA PREGUNTA Y RESPUESTA (APRENDIZAJE)
+----------------------------------------------------------------------
+Cuando el programa falla, el nodo hoja donde se equivocó se "muta" 
+convirtiéndose en un nodo de pregunta. Su texto cambia por la nueva 
+pregunta diferenciadora y su bandera 'es_pregunta' pasa a ser True. 
+Inmediatamente se crean dos nodos hojas nuevos debajo de él, colocando 
+la respuesta correcta del usuario y la respuesta vieja en las ramas 
+'si' o 'no', según corresponda.
+
+
+6. FORMA EN QUE SE GUARDAR EL ARBOL
+----------------------------------------------------------------------
+Para pasar el árbol a un archivo de texto, el GestorArchivos hace un 
+recorrido recursivo en Preorden (procesa la raíz, luego toda la 
+izquierda y luego toda la derecha). Escribe una línea por cada nodo: 
+si es pregunta le pone el prefijo 'P:' y si es respuesta le pone 'R:'. 
+Esto guarda la estructura exacta de forma lineal.
+
+
+7. FORMA EN QUE SE CARGA DESDE ARCHIVO
+----------------------------------------------------------------------
+El método 'cargar_arbol' abre el .txt y mete todas las líneas en una 
+lista. Luego, una función recursiva va sacando las líneas una a una: 
+si empieza con 'P:', crea un nodo de pregunta y se llama a sí misma 
+para armar los hijos izquierdo y derecho de forma consecutiva. Si 
+empieza con 'R:', crea un nodo hoja y frena la recursión en esa rama. 
+Al final, devuelve la raíz con todo el árbol reconstruido idénticamente.

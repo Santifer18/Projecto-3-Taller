@@ -1,0 +1,21 @@
+P:¿Utiliza una bola?
+P:¿Se juega con los pies?
+P:¿Se juega en cancha grande?
+R:fútbol
+R:fútbol sala
+P:¿Se usa una red?
+R:voleibol
+P:¿Se encesta?
+R:baloncesto
+R:béisbol
+P:¿Se juega con raqueta?
+P:¿Tiene una mesa?
+R:ping pong
+R:tenis
+P:¿Es acuático?
+R:natación
+P:¿Es de combate?
+R:boxeo
+P:¿Se juega sobre el hielo?
+R:Hockey
+R:ajedrez

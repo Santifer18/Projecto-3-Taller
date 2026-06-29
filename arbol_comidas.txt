@@ -1,0 +1,23 @@
+P:¿Es salado?
+P:¿Lleva queso?
+P:¿Es italiano?
+P:¿Es redondo?
+R:pizza
+R:Calzone
+R:hamburguesa
+P:¿Lleva arroz?
+R:sushi
+P:¿Usa tortillas?
+R:tacos
+R:papas fritas
+P:¿Es un postre?
+P:¿Es frío?
+R:helado
+R:pastel
+P:¿Es una fruta?
+P:¿Es amarilla?
+R:plátano
+P:¿Es Roja?
+R:manzana
+R:Pera
+R:chocolate

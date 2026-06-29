@@ -1,0 +1,9 @@
+P:¿Es una persona?
+P:¿Es un deportista?
+R:Messi
+P:¿Es actor?
+R:Henry Cavil
+R:Einstein
+P:¿Es un objeto?
+R:Celular
+R:Pino

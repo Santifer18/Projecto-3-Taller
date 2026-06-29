@@ -1,0 +1,27 @@
+P:¿Es multijugador?
+P:¿Es un Battle Royale?
+P:¿Es de construcción?
+R:Fortnite
+P:¿La estetica es realista?
+R:PUBG
+R:Apex Legends
+P:¿Es de estrategia?
+R:League of Legends
+P:¿Es de disparos?
+R:Counter Strike
+P:¿Es de Terror?
+P:¿Es un asimetrico?
+R:Dead By Daylight
+R:R.E.P.O
+R:Minecraft
+P:¿Es de mundo abierto?
+P:El héroe es Link?
+R:Zelda
+R:GTA V
+P:¿Es de carreras?
+P:¿Es de nintendo?
+R:Mario Kart
+R:Sonic Racing Crossworlds
+P:¿Es de bloques?
+R:Tetris
+R:Pacman

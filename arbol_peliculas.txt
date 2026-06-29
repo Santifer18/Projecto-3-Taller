@@ -1,0 +1,21 @@
+P:¿Es un personaje?
+P:¿Es de Disney Animation?
+P:¿Es un león?
+R:Simba
+R:Aladdín
+P:¿Es de Marvel?
+P:¿Es un villano?
+R:Dr. Doom
+R:Iron Man
+P:¿Usa capa?
+R:Batman
+R:Shrek
+P:¿Es de animación?
+P:¿Tiene juguetes vivos?
+R:Toy Story
+R:Nemo
+P:¿Es de romance?
+R:Titanic
+P:¿Es en el espacio?
+R:Star Wars
+R:Inception

@@ -1,0 +1,21 @@
+P:¿Es terrestre?
+P:¿Es doméstico?
+P:¿Ladra?
+R:perro
+R:gato
+P:¿Tiene cuello largo?
+R:jirafa
+P:¿Tiene rayas?
+R:cebra
+P:¿Es carnivoro?
+R:Guepardo
+R:elefante
+P:¿Vive en el mar?
+P:¿Es un mamífero?
+R:ballena
+R:tiburón
+P:¿Tiene alas?
+P:¿Vuela alto?
+R:águila
+R:gallina
+R:pulpo
