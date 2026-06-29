@@ -3,11 +3,18 @@ import os
 from arbol import Nodo
 
 class GestorArchivos:
+    # E: Un string opcional que determina la ruta del archivo de texto
+    # S: Instancia de la clase GestorArchivos
+    # F: Inicializa el gestor asignandole la ruta del archivo de trabajo
+    # R: Ninguna
     def __init__(self, ruta_archivo="arbol.txt"):
         self.ruta_archivo = ruta_archivo
 
+    # E: El objeto Nodo correspondiente a la raiz del arbol
+    # S: Un valor booleano que indica si el proceso fue exitoso o no
+    # F: Abre un archivo en modo escritura y arranca el guardado en formato de texto plano
+    # R: Permisos de escritura validos en el almacenamiento local
     def guardar_arbol(self, raiz):
-        """Guarda el árbol en un archivo .txt usando recorrido Preorden."""
         try:
             with open(self.ruta_archivo, 'w', encoding='utf-8') as f:
                 self._guardar_recursivo(raiz, f)
@@ -15,6 +22,10 @@ class GestorArchivos:
         except Exception:
             return False
 
+    # E: Un objeto Nodo y el descriptor del archivo abierto
+    # S: Ninguna
+    # F: Recorre de manera recursiva en preorden escribiendo los prefijos correspondientes
+    # R: Ninguna
     def _guardar_recursivo(self, nodo, archivo):
         if nodo is None:
             return
@@ -23,20 +34,20 @@ class GestorArchivos:
         self._guardar_recursivo(nodo.si, archivo)
         self._guardar_recursivo(nodo.no, archivo)
 
+    # E: Ninguna
+    # S: El objeto Nodo raiz reconstruido desde el archivo de texto plano
+    # F: Lee las lineas secuenciales y genera la estructura binaria de toma de decisiones
+    # R: El archivo debe existir, poseer datos y mantener la estructura valida de preorden
     def cargar_arbol(self):
-        """Carga y reconstruye el árbol desde el archivo validando errores (RF-02)."""
         if not os.path.exists(self.ruta_archivo):
-            raise FileNotFoundError("El archivo seleccionado no existe.") [cite: 80]
-        
+            raise FileNotFoundError("El archivo seleccionado no existe.")
         try:
             with open(self.ruta_archivo, 'r', encoding='utf-8') as f:
                 lineas = [linea.strip() for linea in f.readlines()]
         except Exception:
-            raise IOError("No se pudo leer el archivo. Verifique los permisos.") [cite: 80]
-        
+            raise IOError("No se pudo leer el archivo. Verifique los permisos.")
         if not lineas or (len(lineas) == 1 and lineas[0] == ""):
-            raise ValueError("El archivo está vacío.") [cite: 81]
-            
+            raise ValueError("El archivo está vacío.")
         def construir():
             if not lineas:
                 return None
@@ -49,50 +60,57 @@ class GestorArchivos:
             elif linea.startswith("R:"):
                 return Nodo(linea[2:], es_pregunta=False)
             else:
-                raise ValueError("El formato está dañado o es incorrecto.") [cite: 81]
-
+                raise ValueError("El formato está dañado o es incorrecto.")
         try:
             raiz_reconstruida = construir()
             if raiz_reconstruida is None:
                 raise ValueError()
             return raiz_reconstruida
         except Exception:
-            raise ValueError("El contenido no permite reconstruir un árbol válido.") [cite: 81]
+            raise ValueError("El contenido no permite reconstruir un árbol válido.")
 
-    def generar_5_ejemplos_obligatorios(self):
-        """Genera los 5 archivos .txt requeridos con al menos 10 respuestas cada uno (RF-15)."""
+    # E: Ninguna
+    # S: Ninguna
+    # F: Escribe en disco 5 archivos de texto estructurados segun los temas solicitados
+    # R: Cada arbol generado debe contener mas de 10 respuestas en su recorrido binario
+    def generar_ejemplos(self):
         ejemplos = {
             "arbol_animales.txt": [
-                "P:¿Vive en el agua?", "P:¿Es un mamífero?", "R:ballena", "R:tiburón",
-                "P:¿Tiene alas?", "P:¿Vuela alto?", "R:águila", "R:gallina",
-                "P:¿Es doméstico?", "P:¿Ladra?", "R:perro", "R:gato",
-                "P:¿Tiene rayas?", "R:cebra", "P:¿Tiene cuello largo?", "R:jirafa", "R:elefante"
+                "P:¿Es terrestre?", 
+                "P:¿Es doméstico?", "P:¿Ladra?", "R:perro", "R:gato", 
+                "P:¿Tiene cuello largo?", "R:jirafa", "P:¿Tiene rayas?", "R:cebra", "R:elefante",
+                "P:¿Vive en el mar?", "P:¿Es un mamífero?", "R:ballena", "R:tiburón", 
+                "P:¿Tiene alas?", "P:¿Vuela alto?", "R:águila", "R:gallina", "R:pulpo"
             ],
             "arbol_peliculas.txt": [
-                "P:¿Es de animación?", "P:¿Es de Disney?", "R:El Rey León", "R:Shrek",
-                "P:¿Es de superhéroes?", "P:¿Es de Marvel?", "R:Iron Man", "R:Batman",
-                "P:¿Tiene varitas mágicas?", "R:Harry Potter", "P:¿Es en el espacio?",
-                "P:¿Usa sables de luz?", "R:Star Wars", "R:Interstellar", "R:Titanic"
+                "P:¿Es un personaje?", 
+                "P:¿Es de Disney?", "P:¿Es un león?", "R:Simba", "R:Aladdín", 
+                "P:¿Es de Marvel?", "R:Iron Man", "P:¿Usa capa?", "R:Batman", "R:Shrek",
+                "P:¿Es de animación?", "P:¿Tiene juguetes vivos?", "R:Toy Story", "R:Nemo", 
+                "P:¿Es de romance?", "R:Titanic", "P:¿Es en el espacio?", "R:Avatar", "R:Inception"
             ],
             "arbol_comidas.txt": [
-                "P:¿Es un plato salado?", "P:¿Lleva queso?", "P:¿Es de origen italiano?", "R:pizza", "R:hamburguesa",
-                "P:¿Es comida típica mexicana?", "R:tacos", "R:sushi",
-                "P:¿Es un postre?", "P:¿Es frío?", "R:helado", "R:pastel",
-                "P:¿Es una fruta?", "P:¿Es roja?", "R:manzana", "R:plátano", "R:café"
+                "P:¿Es salado?", 
+                "P:¿Lleva queso?", "P:¿Es italiano?", "R:pizza", "R:hamburguesa", 
+                "P:¿Lleva arroz?", "R:sushi", "P:¿Usa tortillas?", "R:tacos", "R:papas fritas",
+                "P:¿Es un postre?", "P:¿Es frío?", "R:helado", "R:pastel", 
+                "P:¿Es una fruta?", "P:¿Es amarilla?", "R:plátano", "R:manzana", "R:chocolate"
             ],
             "arbol_deportes.txt": [
-                "P:¿Se juega en equipo?", "P:¿Se usa un balón redondo?", "P:¿Se juega principalmente con los pies?", "R:fútbol", "R:baloncesto",
-                "P:¿Se usa una red?", "R:voleibol", "R:béisbol",
-                "P:¿Se usa una raqueta?", "P:¿Se juega en una mesa?", "R:ping pong", "R:tenis",
-                "P:¿Es un deporte acuático?", "R:natación", "P:¿Es de combate?", "R:boxeo", "R:ajedrez"
+                "P:¿Utiliza una bola?", 
+                "P:¿Se juega con los pies?", "P:¿Se juega en cancha grande?", "R:fútbol", "R:fútbol sala", 
+                "P:¿Se usa una red?", "R:voleibol", "P:¿Se encesta?", "R:baloncesto", "R:béisbol",
+                "P:¿Se juega con raqueta?", "P:¿Tiene una mesa?", "R:ping pong", "R:tenis", 
+                "P:¿Es acuático?", "R:natación", "P:¿Es de combate?", "R:boxeo", "R:ajedrez"
             ],
             "arbol_videojuegos.txt": [
-                "P:¿Es un juego multijugador?", "P:¿Es del género Battle Royale?", "R:Fortnite", "P:¿Es de estrategia?", "R:League of Legends", "R:Minecraft",
-                "P:¿Es de mundo abierto?", "P:¿El protagonista es Link?", "R:Zelda: Breath of the Wild", "R:GTA V",
-                "P:¿Es de plataformas?", "P:¿El protagonista es un fontanero?", "R:Super Mario Odyssey", "R:Sonic", "R:Tetris"
+                "P:¿Es multijugador?", 
+                "P:¿Es un Battle Royale?", "P:¿Es de construcción?", "R:Fortnite", "R:Apex Legends", 
+                "P:¿Es de estrategia?", "R:League of Legends", "P:¿Es de disparos?", "R:Counter Strike", "R:Minecraft",
+                "P:¿Es de mundo abierto?", "P:El héroe es Link?", "R:Zelda", "R:GTA V", 
+                "P:¿Es de carreras?", "R:Mario Kart", "P:¿Es de bloques?", "R:Tetris", "R:Pacman"
             ]
         }
-        
         for nombre_archivo, lineas in ejemplos.items():
             if not os.path.exists(nombre_archivo):
                 with open(nombre_archivo, 'w', encoding='utf-8') as f:
